@@ -1,0 +1,62 @@
+<h1>Hi <%= @user_me['name'] %>!</h1>
+
+<form action="/ideas/<%= @user_me[:id] %>" method="post">
+  <%= tag(:input, :type => "hidden", :name => request_forgery_protection_token.to_s, :value => form_authenticity_token) %>
+  <div class="form-group">
+    <label for="secret"><h3>New Idea: </h3></label>
+    <input type="text" class="form-control" name="content" placeholder:"Place something witty here">
+    <input type="hidden" name="user_id" value="<%= @user_me['id'] %>">
+    <button type="submit" class="btn btn-default">Idea!</button>
+  </div>
+</form>
+<br>
+<div class="container">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Idea Person</th>
+        <th>Idea</th>
+        <th>Action</th>
+        <th>Number of Likes</th>
+      </tr>
+    </thead>
+    <tbody>
+        <% @ideas.each do |idea| %>
+      <tr>
+        <td><a href="/users/<%= idea.user.id %>"><%= idea.user.alias %></a> says:</td>
+        <td><%= idea['content'] %></td>
+        <% if idea.user.id == session[:user_id] %>
+        <td>
+           <form action="/ideas/<%= idea.id %>/delete" method="post">
+                <%= tag(:input, :type => "hidden", :name => request_forgery_protection_token.to_s, :value => form_authenticity_token) %>
+                <input type="submit" class="btn btn-default" name="" value="Delete">
+            </form>
+          </td>
+        <% elsif @user_me.likes.where(idea_id: idea).length == 1 %>
+        <td>
+          <form action="/ideas/<%= idea.id %>/unlike" method="post">
+               <%= tag(:input, :type => "hidden", :name => request_forgery_protection_token.to_s, :value => form_authenticity_token) %>
+               <input type="submit" class="btn btn-default" name="" value="Unlike">
+           </form>
+        </td>
+        <% else %>
+        <td>
+          <form action="/ideas/<%= idea.id %>/like" method="post">
+               <%= tag(:input, :type => "hidden", :name => request_forgery_protection_token.to_s, :value => form_authenticity_token) %>
+               <input type="submit" class="btn btn-default" name="" value="Like">
+           </form>
+        </td>
+        <% end %>
+        <td><a href="/bright_ideas/<%= idea.id %>"><%= idea.likes.count %> people</a> like this</td>
+      </tr>
+        <% end %>
+
+    </tbody>
+  </table>
+</div>
+
+
+<form action="/users/logout" method="post">
+  <%= tag(:input, :type => "hidden", :name => request_forgery_protection_token.to_s, :value => form_authenticity_token) %>
+  <input type="submit" class="btn btn-default" name="" value="Logout">
+</form>

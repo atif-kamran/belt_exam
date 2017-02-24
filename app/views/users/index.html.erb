@@ -1,0 +1,53 @@
+<h1>Bright Ideas for The Not So Wise</h1>
+<% if flash[:error] %>
+  <div class = "notice">
+    <%= flash[:error] %>
+  </div>
+<% end %>
+<% if flash[:success] %>
+  <div class = "notice">
+    <%= flash[:success] %>
+  </div>
+<% end %>
+<h2>Register</h2>
+<form action="/users/create" method="post">
+  <%= tag(:input, :type => "hidden", :name => request_forgery_protection_token.to_s, :value => form_authenticity_token) %>
+  <div class="form-group">
+    <label for="name">Name:</label>
+    <input type="text" class="form-control" name="name">
+  </div>
+  <div class="form-group">
+    <label for="alias">Alias:</label>
+    <input type="text" class="form-control" name="alias">
+  </div>
+  <div class="form-group">
+    <label for="email">Email address:</label>
+    <input type="text" class="form-control" name="email">
+  </div>
+  <div class="form-group">
+    <label for="password">Password:</label>
+    <input type="password" class="form-control" name="password">
+  </div>
+  <p>Password should be at least 8 characters</p>
+  <div class="form-group">
+    <label for="password_confirmation">Password Confirmation:</label>
+    <input type="password" class="form-control" name="password_confirmation">
+  </div>
+  <button type="submit" class="btn btn-default">Register</button>
+</form>
+
+<br>
+
+<h2>Login</h2>
+<form action="/users/login" method="post">
+  <%= tag(:input, :type => "hidden", :name => request_forgery_protection_token.to_s, :value => form_authenticity_token) %>
+  <div class="form-group">
+    <label for="email">Email address:</label>
+    <input type="text" class="form-control" name="email">
+  </div>
+  <div class="form-group">
+    <label for="password">Password:</label>
+    <input type="password" class="form-control" name="password">
+  </div>
+  <button type="submit" class="btn btn-default">Login</button>
+</form>

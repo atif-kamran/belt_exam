@@ -1,0 +1,38 @@
+<h3>Name: <%= @user['name'] %></h3>
+<h3>Alias: <%= @user['alias'] %></h3>
+<h3>E-Mail: <%= @user['email'] %></h3>
+
+<br>
+
+
+<div class="container">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Total Number of Ideas</th>
+        <th>Total Number of Likes</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><%= @ideas.count %></td>
+        <td><%= @ideas_liked_by_user.count %></th>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+
+
+
+
+<form action="/bright_ideas" method="get">
+  <%= tag(:input, :type => "hidden", :name => request_forgery_protection_token.to_s, :value => form_authenticity_token) %>
+  <input type="submit" class="btn btn-default" name="" value="Bright Ideas">
+</form>
+
+
+<form action="/users/logout" method="post">
+  <%= tag(:input, :type => "hidden", :name => request_forgery_protection_token.to_s, :value => form_authenticity_token) %>
+  <input type="submit" class="btn btn-default" name="" value="Logout">
+</form>
